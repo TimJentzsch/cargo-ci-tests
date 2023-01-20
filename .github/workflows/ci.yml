@@ -28,11 +28,11 @@ jobs:
             target/
           # Update the cache every time the `Cargo.lock` file changes (i.e., the dependencies change).
           # We also include the `Cargo.toml` files in the hash in case the compile configurations change.
-          key: 1-${{ runner.os }}-${{ inputs.cache-group }}-${{ hashFiles('**/Cargo.toml') }}-${{ hashFiles('**/Cargo.lock') }}
+          key: 2-${{ runner.os }}-${{ inputs.cache-group }}-${{ hashFiles('**/Cargo.toml') }}-${{ hashFiles('**/Cargo.lock') }}
           # Restore caches from the same group.
           restore-keys: |
-            1-${{ runner.os }}-${{ inputs.cache-group }}-${{ hashFiles('**/Cargo.toml') }}-
-             1-${{ runner.os }}-${{ inputs.cache-group }}-
+            2-${{ runner.os }}-${{ inputs.cache-group }}-${{ hashFiles('**/Cargo.toml') }}-
+             2-${{ runner.os }}-${{ inputs.cache-group }}-
       - name: Install alsa and udev
         run: sudo apt-get update; sudo apt-get install --no-install-recommends libasound2-dev libudev-dev
       - name: Installs cargo-udeps
@@ -43,10 +43,6 @@ jobs:
         env:
           CARGO_LOG: cargo::core::compiler::fingerprint=info
         run: cargo udeps --verbose
-      - name: Cargo build
-        env:
-          CARGO_LOG: cargo::core::compiler::fingerprint=info
-        run: cargo build
       - name: Cargo udeps 2 --verbose
         env:
           CARGO_LOG: cargo::core::compiler::fingerprint=info
