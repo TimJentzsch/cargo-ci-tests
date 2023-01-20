@@ -44,6 +44,10 @@ jobs:
         run: cargo install cargo-udeps@0.1.35
         # Cargo gives an error if it's already installed
         continue-on-error: true
+      - name: Cargo build
+        env:
+          CARGO_LOG: cargo::core::compiler::fingerprint=info
+        run: cargo build
       - name: Cargo udeps
         env:
           CARGO_LOG: cargo::core::compiler::fingerprint=info
