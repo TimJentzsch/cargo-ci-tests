@@ -30,5 +30,7 @@ jobs:
         continue-on-error: true
       - name: Install alsa and udev
         run: sudo apt-get update; sudo apt-get install --no-install-recommends libasound2-dev libudev-dev
-      - name: Run cargo udeps
-        run: cargo +nightly udeps
+      - name: Run cargo-udeps
+        uses: aig787/cargo-udeps-action@v1
+        with:
+          version: "latest"
