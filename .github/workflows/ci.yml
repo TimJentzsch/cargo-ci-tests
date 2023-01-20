@@ -45,4 +45,6 @@ jobs:
         # Cargo gives an error if it's already installed
         continue-on-error: true
       - name: Cargo udeps
+        env:
+          CARGO_LOG: cargo::core::compiler::fingerprint=info
         run: cargo udeps
