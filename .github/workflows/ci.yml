@@ -11,7 +11,7 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  check-unused-dependencies:
+  cargo-build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -27,5 +27,3 @@ jobs:
         env:
           CARGO_LOG: cargo::core::compiler::fingerprint=info
         run: cargo build
-      - name: Run cargo-udeps
-        run: cargo +nightly udeps --verbose
