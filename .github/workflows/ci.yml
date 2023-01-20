@@ -23,7 +23,7 @@ jobs:
         uses: Leafwing-Studios/cargo-cache@v1.0.0
       - name: Install alsa and udev
         run: sudo apt-get update; sudo apt-get install --no-install-recommends libasound2-dev libudev-dev
+      - name: Cargo build
+        run: cargo build
       - name: Run cargo-udeps
-        uses: aig787/cargo-udeps-action@v1
-        with:
-          version: "latest"
+        run: cargo +nightly udeps --verbose
