@@ -40,5 +40,9 @@ jobs:
         uses: Leafwing-Studios/cargo-cache@e5178c61da68275b6883d271b60a8036a672eba0
       - name: Install alsa and udev
         run: sudo apt-get update; sudo apt-get install --no-install-recommends libasound2-dev libudev-dev
+      - name: Installs cargo-udeps
+        run: cargo install cargo-udeps@0.1.35
+        # Cargo gives an error if it's already installed
+        continue-on-error: true
       - name: Cargo udeps
         run: cargo udeps
