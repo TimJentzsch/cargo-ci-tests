@@ -31,4 +31,4 @@ jobs:
       - name: Install alsa and udev
         run: sudo apt-get update; sudo apt-get install --no-install-recommends libasound2-dev libudev-dev
       - name: Run cargo udeps
-        run: cargo udeps
+        run: cargo +nightly udeps
