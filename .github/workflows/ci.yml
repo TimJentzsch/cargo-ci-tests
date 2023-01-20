@@ -27,3 +27,18 @@ jobs:
         env:
           CARGO_LOG: cargo::core::compiler::fingerprint=info
         run: cargo build
+
+  cargo-udeps:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          override: true
+      - name: Cache Cargo build files
+        uses: Leafwing-Studios/cargo-cache@e5178c61da68275b6883d271b60a8036a672eba0
+      - name: Install alsa and udev
+        run: sudo apt-get update; sudo apt-get install --no-install-recommends libasound2-dev libudev-dev
+      - name: Cargo udeps
+        run: cargo udeps
