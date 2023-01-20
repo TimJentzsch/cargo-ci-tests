@@ -11,23 +11,6 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  cargo-build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: nightly
-          override: true
-      - name: Cache Cargo build files
-        uses: Leafwing-Studios/cargo-cache@e5178c61da68275b6883d271b60a8036a672eba0
-      - name: Install alsa and udev
-        run: sudo apt-get update; sudo apt-get install --no-install-recommends libasound2-dev libudev-dev
-      - name: Cargo build
-        env:
-          CARGO_LOG: cargo::core::compiler::fingerprint=info
-        run: cargo build
-
   cargo-udeps:
     runs-on: ubuntu-latest
     steps:
@@ -38,6 +21,14 @@ jobs:
           override: true
       - name: Cache Cargo build files
         uses: Leafwing-Studios/cargo-cache@e5178c61da68275b6883d271b60a8036a672eba0
+      - name: Print debug info
+        run: |
+          echo "Cargo.toml hash: '${{ hashFiles('**/Cargo.toml') }}'"
+          echo "Cargo.lock hash: '${{ hashFiles('**/Cargo.lock') }}'"
+          echo "Files ./"
+          ls
+          echo "Files cargo"
+          ls ~/.cargo
       - name: Install alsa and udev
         run: sudo apt-get update; sudo apt-get install --no-install-recommends libasound2-dev libudev-dev
       - name: Installs cargo-udeps
@@ -48,7 +39,35 @@ jobs:
         env:
           CARGO_LOG: cargo::core::compiler::fingerprint=info
         run: cargo udeps
+      - name: Print debug info 1
+        run: |
+          echo "Cargo.toml hash: '${{ hashFiles('**/Cargo.toml') }}'"
+          echo "Cargo.lock hash: '${{ hashFiles('**/Cargo.lock') }}'"
+          echo "Files ./"
+          ls
+          echo "Files cargo"
+          ls ~/.cargo
+      - name: Cargo build
+        env:
+          CARGO_LOG: cargo::core::compiler::fingerprint=info
+        run: cargo build
+      - name: Print debug info 2
+        run: |
+          echo "Cargo.toml hash: '${{ hashFiles('**/Cargo.toml') }}'"
+          echo "Cargo.lock hash: '${{ hashFiles('**/Cargo.lock') }}'"
+          echo "Files ./"
+          ls
+          echo "Files cargo"
+          ls ~/.cargo
       - name: Cargo udeps 2
         env:
           CARGO_LOG: cargo::core::compiler::fingerprint=info
         run: cargo udeps
+      - name: Print debug info 3
+        run: |
+          echo "Cargo.toml hash: '${{ hashFiles('**/Cargo.toml') }}'"
+          echo "Cargo.lock hash: '${{ hashFiles('**/Cargo.lock') }}'"
+          echo "Files ./"
+          ls
+          echo "Files cargo"
+          ls ~/.cargo
