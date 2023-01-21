@@ -42,10 +42,10 @@ jobs:
           #   ${{ runner.os }}-${{ inputs.cache-group }}-
       - name: Debug info
         run: |
-          echo "home"
-          ls ~
-          echo "cwd"
-          ls ./
+          echo "$ ls --all ~"
+          ls --all ~
+          echo "$ ls --all ./"
+          ls --all ./
       - name: Cargo udeps 1
         env:
           CARGO_LOG: cargo::core::compiler::fingerprint=info
