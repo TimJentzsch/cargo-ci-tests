@@ -19,35 +19,28 @@ jobs:
         with:
           toolchain: nightly
           override: true
-      - name: Create cache
-        id: cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cargo-udeps/
-            target-udeps/
-          # Update the cache every time the `Cargo.lock` file changes (i.e., the dependencies change).
-          # We also include the `Cargo.toml` files in the hash in case the compile configurations change.
-          key: 2-${{ runner.os }}-${{ inputs.cache-group }}-${{ hashFiles('**/Cargo.toml') }}-${{ hashFiles('**/Cargo.lock') }}
-          # Restore caches from the same group.
-          restore-keys: |
-            2-${{ runner.os }}-${{ inputs.cache-group }}-${{ hashFiles('**/Cargo.toml') }}-
-             2-${{ runner.os }}-${{ inputs.cache-group }}-
+      - name: Cache normal Cargo build files
+        uses: Leafwing-Studios/cargo-cache@fb29e934831d50f5a889865b9096ed5754140b8e
       - name: Install alsa and udev
         run: sudo apt-get update; sudo apt-get install --no-install-recommends libasound2-dev libudev-dev
       - name: Installs cargo-udeps
         run: cargo install cargo-udeps@0.1.35
         # Cargo gives an error if it's already installed
         continue-on-error: true
+      - name: Cache udeps Cargo build files
+        uses: Leafwing-Studios/cargo-cache@fb29e934831d50f5a889865b9096ed5754140b8e
+        with:
+          cargo-home: ~/.cargo-udeps
+          cargo-target-dir: target-udeps
       - name: Cargo udeps 1
         env:
           CARGO_LOG: cargo::core::compiler::fingerprint=info
           CARGO_HOME: ~/.cargo-udeps
           CARGO_TARGET_DIR: target-udeps
         run: cargo udeps --verbose
-      - name: Cargo udeps 2 --verbose
+      - name: Cargo udeps 2
         env:
           CARGO_LOG: cargo::core::compiler::fingerprint=info
           CARGO_HOME: ~/.cargo-udeps
           CARGO_TARGET_DIR: target-udeps
-        run: cargo udeps
+        run: cargo udeps --verbose
