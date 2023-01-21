@@ -30,11 +30,22 @@ jobs:
         # Cargo gives an error if it's already installed
         continue-on-error: true
       - name: Cache udeps Cargo build files
-        uses: Leafwing-Studios/cargo-cache@fb29e934831d50f5a889865b9096ed5754140b8e
+        uses: actions/cache@v3
         with:
-          cache-group: ${{ github.job }}-udeps
-          cargo-home: ~/.cargo-udeps
-          cargo-target-dir: target-udeps
+          path: |
+            ~/.cargo-udeps
+            target-udeps/
+          key: ${{ runner.os }}-cargo-udeps-udeps2-${{ hashFiles('**/Cargo.toml') }}-${{ hashFiles('**/Cargo.lock') }}
+          # Restore caches from the same group.
+          # restore-keys: |
+          #   ${{ runner.os }}-${{ inputs.cache-group }}-${{ hashFiles('**/Cargo.toml') }}-
+          #   ${{ runner.os }}-${{ inputs.cache-group }}-
+      - name: Debug info
+        run: |
+          echo "home"
+          ls ~
+          echo "cwd"
+          ls ./
       - name: Cargo udeps 1
         env:
           CARGO_LOG: cargo::core::compiler::fingerprint=info
@@ -47,3 +58,9 @@ jobs:
           CARGO_HOME: ~/.cargo-udeps
           CARGO_TARGET_DIR: target-udeps
         run: cargo udeps --verbose
+      - name: Debug info 2
+        run: |
+          echo "home"
+          ls ~
+          echo "cwd"
+          ls ./
