@@ -21,6 +21,8 @@ jobs:
           override: true
       - name: Cache normal Cargo build files
         uses: Leafwing-Studios/cargo-cache@fb29e934831d50f5a889865b9096ed5754140b8e
+        with:
+          cache-group: ${{ github.job }}-normal
       - name: Install alsa and udev
         run: sudo apt-get update; sudo apt-get install --no-install-recommends libasound2-dev libudev-dev
       - name: Installs cargo-udeps
@@ -30,6 +32,7 @@ jobs:
       - name: Cache udeps Cargo build files
         uses: Leafwing-Studios/cargo-cache@fb29e934831d50f5a889865b9096ed5754140b8e
         with:
+          cache-group: ${{ github.job }}-udeps
           cargo-home: ~/.cargo-udeps
           cargo-target-dir: target-udeps
       - name: Cargo udeps 1
