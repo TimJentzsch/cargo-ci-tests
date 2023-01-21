@@ -24,8 +24,8 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            ~/.cargo/
-            target/
+            ~/.cargo-udeps/
+            target-udeps/
           # Update the cache every time the `Cargo.lock` file changes (i.e., the dependencies change).
           # We also include the `Cargo.toml` files in the hash in case the compile configurations change.
           key: 2-${{ runner.os }}-${{ inputs.cache-group }}-${{ hashFiles('**/Cargo.toml') }}-${{ hashFiles('**/Cargo.lock') }}
@@ -42,8 +42,12 @@ jobs:
       - name: Cargo udeps 1
         env:
           CARGO_LOG: cargo::core::compiler::fingerprint=info
+          CARGO_HOME: ~/.cargo-udeps
+          CARGO_TARGET_DIR: target-udeps
         run: cargo udeps --verbose
       - name: Cargo udeps 2 --verbose
         env:
           CARGO_LOG: cargo::core::compiler::fingerprint=info
+          CARGO_HOME: ~/.cargo-udeps
+          CARGO_TARGET_DIR: target-udeps
         run: cargo udeps

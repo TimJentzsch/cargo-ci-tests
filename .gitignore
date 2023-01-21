@@ -1,4 +1,5 @@
 /target
+/target-udeps
 
 # Simualate a library configuration
 # Cargo.lock
