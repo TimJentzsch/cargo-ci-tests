@@ -11,8 +11,11 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  check-unused-dependencies:
-    runs-on: ubuntu-latest
+  cargo-check:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@stable
