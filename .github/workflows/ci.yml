@@ -21,6 +21,9 @@ jobs:
         with:
           toolchain: stable
 
+      - name: Install dependencies
+        run: sudo apt-get update; sudo apt-get install --no-install-recommends libasound2-dev libudev-dev libwayland-dev libxkbcommon-dev
+
       # Cache the Cargo build files
       # This action must be used *after* `dtolnay/rust-toolchain`!
       - uses: Leafwing-Studios/cargo-cache@v2
