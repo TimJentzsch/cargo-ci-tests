@@ -26,7 +26,7 @@ jobs:
 
       # Cache the Cargo build files
       # This action must be used *after* `dtolnay/rust-toolchain`!
-      - uses: Leafwing-Studios/cargo-cache@db152985e6eb55e60c6f4da53a9a067bd66990dd
+      - uses: Leafwing-Studios/cargo-cache@0666ca75e326047a6d92f9dcaec7d1ba8f58a534
         with:
           save-if: ${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
 
